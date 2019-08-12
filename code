@@ -1,0 +1,45 @@
+clc
+clear all
+close all
+J=imread('capture7.jpg');
+subplot(20,30,1);
+imshow(J);
+title('original image');
+I=im2bw(J);
+subplot(20,30,2);
+imshow(I);
+title('binary form');
+b=bwboundaries(I,'noholes');
+b=b{1};
+bin=bound2im(b,size(I,1),size(I,2));
+x=mean2(bin);
+y=std2(bin);
+c=corner(bin);
+subplot(20,30,3);
+imshow(bin);
+title('Extracted boundary');
+C=corner(bin);
+z=frdescp(b);
+number=0;
+i=1;
+p=1;
+for j=5:5:8000
+sj=ifrdescp(z,j);
+sjim=bound2im(sj,size(I,1),size(I,2));
+subplot(20,30,3+(j/5));
+imshow(sjim);
+title([ num2str(j) ' ' 'descriptors']);
+
+C1=corner(sjim);
+p=mean2(sjim);
+for k=1.4:0.2:3
+    o=abs((p-x)/(k*y));
+    if(o<0.00009)
+        disp(k);
+        disp(j);
+t=mean2(sjim);
+        return;
+     end
+ 
+end
+end
